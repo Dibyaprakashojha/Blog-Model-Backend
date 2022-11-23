@@ -5,7 +5,9 @@ import com.shipthis.blogModel.repository.IBlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BlogServiceImpl implements IBlogService{
@@ -39,6 +41,8 @@ public class BlogServiceImpl implements IBlogService{
 
     @Override
     public List<BlogModel> getAllBlogs() {
-        return iBlogRepository.findAll();
+        return iBlogRepository.findAll()
+                .stream().sorted(Comparator.comparing(BlogModel::getBlogId))
+                .collect(Collectors.toList());
     }
 }
